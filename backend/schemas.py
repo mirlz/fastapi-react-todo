@@ -8,6 +8,7 @@ class ToDoCreate(BaseModel):
 class ToDo(BaseModel):
     id: int
     task: str
+    completed: bool
 
     class Config:
         orm_mode = True
@@ -15,6 +16,7 @@ class ToDo(BaseModel):
 # Complete ToDo Schema (Pydantic Model)
 class ToDoEdit(BaseModel):
     task: str
-
+    completed: bool
+    
     class Config:
         orm_mode = True
