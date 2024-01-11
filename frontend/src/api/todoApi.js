@@ -28,14 +28,27 @@ export const addTodo = async (newTodo) => {
 
 export const deleteTodo = async ({ id }) => {
   try {
-    const response = await fetch(`http://localhost:8000/todo/${id}`, {
+    await fetch(`http://localhost:8000/todo/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: { "id": id }
     });
-    const result = await response.json();
-    console.log("deleteTodo(): Success:", result);
+    console.log("deleteTodo(): Success");
   } catch (err) {
     console.log("deleteTodo(): Error: ", err);
+  }
+};
+
+export const editTodo = async ({ id, task }) => {
+  try {
+    const response = await fetch(`http://localhost:8000/todo/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task: task })
+    });
+    const result = await response.json();
+    console.log("editTodo(): Success:", result);
+  } catch (err) {
+    console.log("editTodo(): Error: ", err);
   }
 };
