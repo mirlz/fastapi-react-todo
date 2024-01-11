@@ -1,4 +1,5 @@
 import TodoList from './components/TodoList';
+import AddTodo from './components/AddTodo';
 import Container from '@mui/material/Container';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +17,7 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Container maxWidth="md">
+          <AddTodo />
           <TodoList />
         </Container>
       </ThemeProvider>

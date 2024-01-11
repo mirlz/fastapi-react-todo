@@ -9,6 +9,7 @@ import { TodosContext } from "../contexts/TodosContext";
 
 const TodoList = () => {
   const { todos } = useContext(TodosContext);
+  console.log(todos)
 
   return (
     <div>
