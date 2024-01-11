@@ -39,12 +39,12 @@ export const deleteTodo = async ({ id }) => {
   }
 };
 
-export const editTodo = async ({ id, task }) => {
+export const editTodo = async ({ id, task, completed }) => {
   try {
     const response = await fetch(`http://localhost:8000/todo/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task: task })
+      body: JSON.stringify({ task, completed })
     });
     const result = await response.json();
     console.log("editTodo(): Success:", result);

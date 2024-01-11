@@ -6,6 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
 
 import DeleteTodoIcon from "./DeleteTodoIcon";
 import EditTodo from "./EditTodo";
@@ -13,19 +15,30 @@ import EditTodo from "./EditTodo";
 import { editTodo } from "../api/todoApi";
 
 const Todo = ({ todo }) => {
-  const { task, id } = todo;
+  const { task, id, completed } = todo;
 
-  const [editable, setEditable] = useState(true);
+  const [editable, setEditable] = useState(false);
   const [currentTask, setCurrentTask] = useState(task);
 
   const { fetchAndUpdateTodos } = useContext(TodosContext);
 
   const handleEditIconClick = () => {
-    setEditable(!editable);
+    setEditable(editable => !editable);
   }
 
   const handleInput = event => {
     setCurrentTask(event.target.value)
+  }
+
+  const submit = async () => {
+    const updatedTask = {
+      id,
+      "task": currentTask,
+      "completed": completed
+    };
+    await editTodo(updatedTask).then(() => {
+      fetchAndUpdateTodos();
+    });
   }
 
   const handleSubmitFromKb = async (event) => {
@@ -34,10 +47,11 @@ const Todo = ({ todo }) => {
     submit();
   }
 
-  const submit = async () => {
+  const handleCheck = async (event) => {
     const updatedTask = {
       id,
-      "task": currentTask
+      "task": currentTask,
+      "completed": event.target.checked
     };
     await editTodo(updatedTask).then(() => {
       fetchAndUpdateTodos();
@@ -50,37 +64,49 @@ const Todo = ({ todo }) => {
       noValidate
       autoComplete="off"
       onSubmit={handleSubmitFromKb}>
-      <FormControl fullWidth key={`formControl-${id}`}>
-        <TextField
-          value={currentTask}
-          variant="outlined"
-          key={`listItem-${id}`}
-          disabled={editable}
-          margin="dense"
-          onChange={handleInput}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end" key={`inputBtnGroup-${id}`}>
-                <Box mr={1.5}>
-                  <IconButton edge="end" aria-label="edit" key={`iconButton-${id}`}>
-                    <EditTodo
-                      id={id}
-                      key={`editIcon-${id}`}
-                      handleEditIconClick={handleEditIconClick}
-                      handleSubmit={submit}
-                      isEditing={editable}
-                    />
+      <Stack direction="row" spacing={2}>
+        <Box>
+          <Checkbox
+            sx={{
+              mt: 1.5
+            }}
+            checked={completed}
+            onClick={handleCheck}
+          />
+        </Box>
+        <FormControl fullWidth key={`formControl-${id}`}>
+          <TextField
+            fullWidth
+            value={currentTask}
+            variant="outlined"
+            key={`listItem-${id}`}
+            disabled={!editable}
+            margin="dense"
+            onChange={handleInput}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end" key={`inputBtnGroup-${id}`}>
+                  <Box mr={1.5}>
+                    <IconButton edge="end" aria-label="edit" key={`iconButton-${id}`}>
+                      <EditTodo
+                        id={id}
+                        key={`editIcon-${id}`}
+                        handleEditIconClick={handleEditIconClick}
+                        handleSubmit={submit}
+                        isEditing={!editable}
+                      />
+                    </IconButton>
+                  </Box>
+                  <IconButton edge="end" aria-label="delete" key={`iconButton-${id}`}>
+                    <DeleteTodoIcon id={id} key={`deleteIcon-${id}`} />
                   </IconButton>
-                </Box>
-                <IconButton edge="end" aria-label="delete" key={`iconButton-${id}`}>
-                  <DeleteTodoIcon id={id} key={`deleteIcon-${id}`} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        >
-        </TextField>
-      </FormControl>
+                </InputAdornment>
+              ),
+            }}
+          >
+          </TextField>
+        </FormControl>
+      </Stack>
     </Box>
   )
 };
