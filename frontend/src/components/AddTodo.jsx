@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from "react";
 
 import { TodosContext } from "../contexts/TodosContext";
@@ -10,9 +9,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import IconButton from '@mui/material/IconButton';
 
+import { addTodo } from "../api/todoApi";
+
 const AddTodo = () => {
   const [task, setTask] = useState("");
-  const { fetchTodos } = useContext(TodosContext);
+  const { fetchAndUpdateTodos } = useContext(TodosContext);
 
   const resetFormFields = () => {
     setTask('');
@@ -21,18 +22,14 @@ const AddTodo = () => {
     setTask(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newTodo = {
       "task": task
     }
 
-    fetch("http://localhost:8000/todo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTodo)
-    }).then(() => {
-      fetchTodos();
+    await addTodo(newTodo).then(() => {
+      fetchAndUpdateTodos();
       resetFormFields();
     });
   }

@@ -1,20 +1,20 @@
 import { createContext, useState, useEffect } from 'react';
+import { getTodos } from "../api/todoApi";
 
 export const TodosContext = createContext({});
 
 export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState();
 
-  const fetchTodos = async () => {
-    const response = await fetch("http://localhost:8000/todo");
-    const todos = await response.json();
+  const fetchAndUpdateTodos = async () => {
+    const todos = await getTodos();
     setTodos(todos);
   }
 
-  const value = { todos, fetchTodos };
+  const value = { todos, fetchAndUpdateTodos };
 
   useEffect(() => {
-    fetchTodos();
+    fetchAndUpdateTodos();
   }, []);
 
   return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>
