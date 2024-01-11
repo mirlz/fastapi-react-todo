@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import models
 import schemas
+from pydantic import BaseModel
 
 # Create the database
 Base.metadata.create_all(engine)
@@ -65,14 +66,21 @@ def read_todo(id: int, session: Session = Depends(get_session)):
     return todo
 
 @app.put("/todo/{id}", response_model=schemas.ToDo)
-def update_todo(id: int, task: str, session: Session = Depends(get_session)):
+#def update_todo(id: int, task: str, session: Session = Depends(get_session)):
+def update_todo(id: int, task: schemas.ToDoEdit, session: Session = Depends(get_session)):
 
+    print('task')
+    print(task)
     # get the todo item with the given id
-    todo = session.query(models.ToDo).get(id)
+    todo_query = session.query(models.ToDo).filter(models.ToDo.id==id)
+    todo = todo_query.first()
 
     # update todo item with the given task (if an item with the given id was found)
     if todo:
         todo.task = task
+        print('todo')
+        print(todo)
+
         session.commit()
 
     # check if todo item with given id exists. If not, raise exception and return 404 not found response

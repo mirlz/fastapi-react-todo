@@ -11,3 +11,10 @@ class ToDo(BaseModel):
 
     class Config:
         orm_mode = True
+
+# Complete ToDo Schema (Pydantic Model)
+class ToDoEdit(BaseModel):
+    task: str
+
+    class Config:
+        orm_mode = True
