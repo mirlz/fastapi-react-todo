@@ -54,7 +54,7 @@ Click on Edit icon (beside trash icon) to trigger edit mode, in which case the i
 
 #### Delete task
 
-<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/deleteitem.png" alt="Delete Task" ></img>
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/deleteItem.png" alt="Delete Task" ></img>
 
 Click on Delete icon (trash icon) to delete currently chosen task. The list would refresh on deletion.
 
@@ -63,3 +63,23 @@ Click on Delete icon (trash icon) to delete currently chosen task. The list woul
 <img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/markdone.png" alt="Mark Done" ></img>
 
 Click on the checkbox beside each task item to mark as complete, the item would then show a line through to show that the task is done, edit would be disabled for marked done items. 
+
+#### Error handling
+
+##### Successful operation
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/successSnackbar.png" alt="Success Snackbar" ></img>
+
+On every successful interaction with task item, a snackbar would appear to show that operation has been successful.
+
+##### Error operation
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/errorSnackbar.png" alt="Error Snackbar" ></img>
+
+On error with any user operation, a similar snackbar would appear to show that the previous operation has failed.
+
+##### General 400 error
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/error.png" alt="Error Page" ></img>
+
+A large component for generic error handling.
