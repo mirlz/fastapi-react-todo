@@ -74,6 +74,7 @@ const Todo = ({ todo }) => {
     await editTodo(updatedTask).then(() => {
       fetchAndUpdateTodos();
       handleSuccessShow();
+      handleEditIconClick(false);
     }).catch(err => {
       console.log('handleCheck -> editTodo err: ', err);
       handleErrorShow();
