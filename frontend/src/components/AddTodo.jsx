@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 
 import { TodosContext } from "../contexts/TodosContext";
+import SnackbarAlert from "./SnackbarAlert";
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -14,6 +15,8 @@ import { addTodo } from "../api/todoApi";
 const AddTodo = () => {
   const [task, setTask] = useState("");
   const { fetchAndUpdateTodos } = useContext(TodosContext);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const resetFormFields = () => {
     setTask('');
@@ -22,44 +25,60 @@ const AddTodo = () => {
     setTask(event.target.value)
   }
 
+  const handleErrorShow = () => {
+    setError(prevState => !prevState);
+  }
+
+  const handleSuccessShow = () => {
+    setSuccess(prevState => !prevState);
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newTodo = {
-      "task": task
-    }
+    if (task) {
+      const newTodo = {
+        "task": task
+      }
 
-    await addTodo(newTodo).then(() => {
-      fetchAndUpdateTodos();
-      resetFormFields();
-    });
+      await addTodo(newTodo).then(() => {
+        fetchAndUpdateTodos();
+        resetFormFields();
+        handleSuccessShow();
+      }).catch(err => {
+        console.log('handleSubmit -> addTodo err: ', err);
+        handleErrorShow();
+      });
+    }
   }
   return (
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}>
-      <FormControl fullWidth>
-        <TextField
-          required
-          value={task}
-          id="standard-basic"
-          label="Add a todo item"
-          variant="outlined"
-          onChange={handleInput}
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={handleSubmit}>
-                  <KeyboardReturnIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </FormControl>
-    </Box>
+    <>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}>
+        <FormControl fullWidth>
+          <TextField
+            value={task}
+            id="standard-basic"
+            label="Add a task item"
+            variant="outlined"
+            onChange={handleInput}
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end" onClick={handleSubmit}>
+                    <KeyboardReturnIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </FormControl>
+      </Box>
+      <SnackbarAlert error={error} success={success} errorHandler={handleErrorShow} successHandler={handleSuccessShow} />
+    </>
   )
 }
 

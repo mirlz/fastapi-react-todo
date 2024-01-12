@@ -3,7 +3,7 @@ import React from "react";
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
-const EditTodo = ({ id, handleEditIconClick, isEditing, handleSubmit }) => {
+const EditTodoIcon = ({ id, handleEditIconClick, isEditing, handleSubmit }) => {
   return (
     (isEditing) ?
       <EditNoteIcon onClick={handleEditIconClick} />
@@ -15,4 +15,4 @@ const EditTodo = ({ id, handleEditIconClick, isEditing, handleSubmit }) => {
   )
 };
 
-export default EditTodo;
+export default EditTodoIcon;

@@ -8,7 +8,7 @@ export const getTodos = async () => {
 
     return await response.json();
   } catch (err) {
-    console.log("getTodos(): Error: ", err);
+    throw err;
   }
 };
 
@@ -19,23 +19,30 @@ export const addTodo = async (newTodo) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTodo)
     });
-    const result = await response.json();
-    console.log("addTodo(): Success:", result);
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
   } catch (err) {
-    console.log("addTodo(): Error: ", err);
+    throw err;
   }
 };
 
 export const deleteTodo = async ({ id }) => {
   try {
-    await fetch(`http://localhost:8000/todo/${id}`, {
+    const response = await fetch(`http://localhost:8000/todo/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: { "id": id }
     });
-    console.log("deleteTodo(): Success");
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    return response;
   } catch (err) {
-    console.log("deleteTodo(): Error: ", err);
+    throw err;
   }
 };
 
@@ -46,9 +53,12 @@ export const editTodo = async ({ id, task, completed }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ task, completed })
     });
-    const result = await response.json();
-    console.log("editTodo(): Success:", result);
+
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+    return response.json();
   } catch (err) {
-    console.log("editTodo(): Error: ", err);
+    throw err;
   }
 };
