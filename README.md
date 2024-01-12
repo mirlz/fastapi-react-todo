@@ -29,3 +29,37 @@ cd frontend
 npm i 
 npm run start
 ```
+
+### Simple todo / task management app
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/app.png" alt="Add Task" ></img>
+
+This app allows for user to create / edit / delete tasks, for every created task, user can also mark it as done by clicking the checkbox beside each task item. 
+
+#### Add task
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/addnewitem.png" alt="Add Task" ></img>
+
+On inputting task item in the top input bear, either press Enter or click on the return icon to submit new task item. 
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/itemadded.png" alt="Added New Task" ></img>
+
+Upon successful submission, the list will refresh and reflect the latest added item. 
+
+#### Edit task
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/edit.png" alt="Edit Task" ></img>
+
+Click on Edit icon (beside trash icon) to trigger edit mode, in which case the item would then be editable to user to update the chosen task. 
+
+#### Delete task
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/deleteitem.png" alt="Delete Task" ></img>
+
+Click on Delete icon (trash icon) to delete currently chosen task. The list would refresh on deletion.
+
+#### Mark done for task
+
+<img src="https://github.com/mirlz/fastapi-react-todo/blob/main/img/markdone.png" alt="Mark Done" ></img>
+
+Click on the checkbox beside each task item to mark as complete, the item would then show a line through to show that the task is done, edit would be disabled for marked done items. 
