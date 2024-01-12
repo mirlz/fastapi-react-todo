@@ -5,13 +5,21 @@ export const TodosContext = createContext({});
 
 export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasErr, setHasErr] = useState(false);
 
   const fetchAndUpdateTodos = async () => {
-    const todos = await getTodos();
-    setTodos(todos);
+    await getTodos().then((todos) => {
+      setIsLoading(false);
+      setTodos(todos);
+    }).catch(err => {
+      setIsLoading(false);
+      setHasErr(true);
+      console.log('fetchAndUpdateTodos err: ', err);
+    });
   }
 
-  const value = { todos, fetchAndUpdateTodos };
+  const value = { todos, fetchAndUpdateTodos, isLoading, hasErr };
 
   useEffect(() => {
     fetchAndUpdateTodos();
